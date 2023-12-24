@@ -15,7 +15,7 @@ jobs:
     runs-on: ${{matrix.os}}
     strategy:
       matrix:
-        os: [ubuntu-latest, macos-latest, windows-latest]
+        os: [windows-latest]
 
     steps:
       - name: Install Ninja, LLVM, Clang and LLDB (Ubuntu)
@@ -39,7 +39,7 @@ jobs:
 
       - name: Install Ninja (Windows)
         run: choco install -y --no-progress ninja
-        if: matrix.os == 'windows-latest'
+        if: matrix.os == 'windows-latest1'
 
       - name: Download LLVM binaries (Windows)
         # Using not yet released feature 'check_artifacts'.
@@ -50,14 +50,14 @@ jobs:
           repo: sunshaoce/install-llvm
           # Get the last available artifact.
           check_artifacts:  true
-        if: matrix.os == 'windows-latest'
+        if: matrix.os == 'windows-latest1'
 
       # Required to find cl.exe
       - name: Setup devcmd (Windows)
         uses: ilammy/msvc-dev-cmd@v1
         with:
           arch: x86
-        if: matrix.os == 'windows-latest'
+        if: matrix.os == 'windows-latest1'
 
       - name: Set up environment (Windows)
         run: |
@@ -67,13 +67,14 @@ jobs:
           $CC = (gcm "cl.exe" | select-object -ExpandProperty Definition)
           echo "CC='$CC'" >> $env:GITHUB_ENV
           echo "CXX='$CC'" >> $env:GITHUB_ENV
-        if: matrix.os == 'windows-latest'
+        if: matrix.os == 'windows-latest1'
 
       - name: Configure CMake project
         run: |
           export LLVM_DIR=${{env.LLVM_CONFIG_PATH}}
           cmake -GNinja -B ${{env.BUILD_PATH}} -DCMAKE_BUILD_TYPE=${{env.BUILD_TYPE}} -DINCLUDE_TESTS=ON
         shell: bash
+        if: matrix.os == 'windows-latest1'
 
       - name: Build
         run: cmake --build ${{env.BUILD_PATH}} --config ${{env.BUILD_TYPE}}
@@ -82,3 +83,23 @@ jobs:
         run: |
           cd ${{env.BUILD_PATH}}
           ctest -V -C ${{env.BUILD_TYPE}}
+          if: matrix.os == 'windows-latest1'
+
+      - name: Create Release
+        id: create_release
+        uses: elgohr/Github-Release-Action@v5
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          tag_name: ${{ steps.get_datetime.outputs.date }}
+          title: lldb-mi-${{ steps.get_datetime.outputs.date }}
+          draft: false
+          prerelease: false
+            
+      - name: Upload Release Asset
+        id: upload-release-asset 
+        uses: softprops/action-gh-release@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          files: README.md
