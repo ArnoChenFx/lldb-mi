@@ -78,7 +78,7 @@ jobs:
       - name: Configure CMake project
         run: |
           export LLVM_DIR=${{env.LLVM_CONFIG_PATH}}
-          cmake -GNinja -B ${{env.BUILD_PATH}} -DCMAKE_BUILD_TYPE=${{env.BUILD_TYPE}} -DINCLUDE_TESTS=OFF
+          cmake -GNinja -B ${{env.BUILD_PATH}} -DCMAKE_BUILD_TYPE=${{env.BUILD_TYPE}} -DINCLUDE_TESTS=OFF -DCMAKE_INSTALL_PREFIX=Install
         shell: bash
         if: matrix.os == 'windows-latest1'
 
@@ -95,7 +95,7 @@ jobs:
         id: tag
         run: |
           # See https://docs.github.com/en/get-started/using-git/dealing-with-special-characters-in-branch-and-tag-names
-          TAG=${{ steps.get_datetime.outputs.date }}
+          TAG=v$(date -Iseconds | sed 's/[T:\+]/-/g')
           echo "$TAG"
           echo "tag=$TAG" >> $GITHUB_OUTPUT
           git tag -a $TAG -m "Published version $TAG" ${GITHUB_SHA}
