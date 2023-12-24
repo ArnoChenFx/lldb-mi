@@ -92,7 +92,7 @@ jobs:
       - uses: actions/upload-artifact@v3.1.2
         with:
           name: lldb-mi-build
-          path: ${{env.BUILD_PATH}}
+          path: build
         
       - name: Create Release
         id: create_release
