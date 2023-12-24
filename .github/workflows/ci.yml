@@ -1,6 +1,12 @@
 name: LLDB-MI CI
 
-on: [push, pull_request]
+on:
+  workflow_dispatch:
+    inputs:
+      name:
+        description: 'Release'
+        required: true
+        default: 'Release'
 
 jobs:
   build_and_test:
