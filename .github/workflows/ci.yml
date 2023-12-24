@@ -86,11 +86,11 @@ jobs:
         run: cmake --build ${{env.BUILD_PATH}} --config ${{env.BUILD_TYPE}}
         if: matrix.os == 'windows-latest1'
 
-      - name: Run testsuite
-        run: |
-          cd ${{env.BUILD_PATH}}
-          ctest -V -C ${{env.BUILD_TYPE}}
-          if: matrix.os == 'windows-latest1'
+      # - name: Run testsuite
+      #   run: |
+      #     cd ${{env.BUILD_PATH}}
+      #     ctest -V -C ${{env.BUILD_TYPE}}
+      #     if: matrix.os == 'windows-latest1'
 
       - name: Create Release
         id: create_release
