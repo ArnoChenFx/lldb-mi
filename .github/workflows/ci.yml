@@ -106,4 +106,4 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           tag_name: 20231224200222
-          files:  ${{env.BUILD_PATH}}/build/src/lldb-mi.exe
+          files: build/src/lldb-mi.exe
