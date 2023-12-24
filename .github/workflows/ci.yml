@@ -86,9 +86,9 @@ jobs:
         run: cmake --build ${{env.BUILD_PATH}} --config ${{env.BUILD_TYPE}}
         if: matrix.os == 'windows-latest'
 
-      - name: Install
-        run: cmake install ${{env.BUILD_PATH}}
-        if: matrix.os == 'windows-latest'
+      # - name: Install
+      #   run: cmake install ${{env.BUILD_PATH}}
+      #   if: matrix.os == 'windows-latest'
     
       - name: Create Release
         id: create_release
@@ -106,4 +106,4 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           tag_name: 20231224200222
-          files: install/lldb-mi.exe
+          files:  ${{env.BUILD_PATH}}/build/src/lldb-mi.exe
