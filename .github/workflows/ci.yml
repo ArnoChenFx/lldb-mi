@@ -91,15 +91,6 @@ jobs:
       #     cd ${{env.BUILD_PATH}}
       #     ctest -V -C ${{env.BUILD_TYPE}}
       #     if: matrix.os == 'windows-latest1'
-      - name: Tag the repository
-        id: tag
-        run: |
-          # See https://docs.github.com/en/get-started/using-git/dealing-with-special-characters-in-branch-and-tag-names
-          TAG=v$(date -Iseconds | sed 's/[T:\+]/-/g')
-          echo "$TAG"
-          echo "tag=$TAG" >> $GITHUB_OUTPUT
-          git tag -a $TAG -m "Published version $TAG" ${GITHUB_SHA}
-          git push origin $TAG
     
       - name: Create Release
         id: create_release
@@ -107,7 +98,7 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          tag_name: ${{ steps.tag.outputs.tag }}
+          tag_name: 20231224200222
           title: lldb-mi-${{ steps.get_datetime.outputs.date }}
             
       - name: Upload Release Asset
@@ -116,5 +107,5 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          tag_name: ${{ steps.tag.outputs.tag }}
+          tag_name: 20231224200222
           files: README.md
