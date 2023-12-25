@@ -98,7 +98,7 @@ jobs:
       - uses: actions/upload-artifact@v3.1.2
         with:
           name: lldb-mi-build
-          path: build
+          path: inst
         
       - name: Create Release
         id: create_release
@@ -106,7 +106,6 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          tag_name: 20231224200222
           title: lldb-mi
             
       - name: Upload Release Asset
