@@ -83,7 +83,9 @@ jobs:
         if: matrix.os == 'windows-latest'
 
       - name: Build
-        run: cmake --build ${{env.BUILD_PATH}} --config ${{env.BUILD_TYPE}}
+        run: |
+          cmake --build ${{env.BUILD_PATH}} --config ${{env.BUILD_TYPE}}
+          cmake --install ${{env.BUILD_PATH}} --config ${{env.BUILD_TYPE}} --prefix "./inst"
         if: matrix.os == 'windows-latest'
 
       # - name: Install
@@ -110,4 +112,4 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           tag_name: 20231224200222
-          files: build/src/lldb-mi.exe
+          files: "./inst"
