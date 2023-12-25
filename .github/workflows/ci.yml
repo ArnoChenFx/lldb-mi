@@ -57,7 +57,7 @@ jobs:
         with:
           workflow: ci.yml
           workflow_conclusion: success
-          repo: sunshaoce/install-llvm
+          repo: ArnoChenFx/install-llvm
           # Get the last available artifact.
           check_artifacts:  true
         if: matrix.os == 'windows-latest'
