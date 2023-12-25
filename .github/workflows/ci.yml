@@ -66,7 +66,7 @@ jobs:
       - name: Setup devcmd (Windows)
         uses: ilammy/msvc-dev-cmd@v1
         with:
-          arch: x86
+          arch: x64
         if: matrix.os == 'windows-latest'
 
       - name: Set up environment (Windows)
