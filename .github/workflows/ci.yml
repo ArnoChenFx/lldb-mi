@@ -82,7 +82,7 @@ jobs:
       - name: Configure CMake project
         run: |
           export LLVM_DIR=${{env.LLVM_CONFIG_PATH}}
-          cmake -GNinja -B ${{env.BUILD_PATH}} -DCMAKE_BUILD_TYPE=${{env.BUILD_TYPE}} -DINCLUDE_TESTS=OFF -DCMAKE_INSTALL_PREFIX=install
+          cmake -GNinja -B ${{env.BUILD_PATH}} -DCMAKE_BUILD_TYPE=${{env.BUILD_TYPE}} -DINCLUDE_TESTS=OFF
         shell: bash
         if: matrix.os == 'windows-latest'
 
